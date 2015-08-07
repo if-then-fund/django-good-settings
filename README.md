@@ -1,7 +1,7 @@
 django-good-settings
 ====================
 
-A Django 1.7 `settings.py` that gets you going with good, secure settings.
+A Django 1.8 `settings.py` that gets you going with good, secure settings.
 
 Copy (or symbolically link) this `settings.py` and `helper_middleware.py` into your main application.
 

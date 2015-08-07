@@ -60,28 +60,41 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE_CLASSES = [
-	'django.contrib.sessions.middleware.SessionMiddleware',
-	'django.middleware.common.CommonMiddleware',
-	'django.middleware.csrf.CsrfViewMiddleware',
-	'django.contrib.auth.middleware.AuthenticationMiddleware',
-	'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
-	'django.contrib.messages.middleware.MessageMiddleware',
-	'django.middleware.clickjacking.XFrameOptionsMiddleware',
-	'twostream.middleware.CacheLogic',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
 ]
 if environment["debug"]:
 	MIDDLEWARE_CLASSES.append(primary_app+'.helper_middleware.DumpErrorsToConsole')
 
-TEMPLATE_CONTEXT_PROCESSORS = [
-	"django.contrib.auth.context_processors.auth",
-	"django.core.context_processors.debug",
-	"django.core.context_processors.i18n",
-	"django.core.context_processors.media",
-	"django.core.context_processors.static",
-	"django.core.context_processors.tz",
-	"django.contrib.messages.context_processors.messages",
-	"django.core.context_processors.request",
-	]
+TEMPLATES = [
+	{
+		'BACKEND': 'django.template.backends.django.DjangoTemplates',
+		'DIRS': [os.path.join(os.path.dirname(os.path.dirname(__file__)), 'templates')],
+		'APP_DIRS': True if DEBUG else None, # when not in debug, replaced by app_directories.Loader
+		'OPTIONS': {
+			'context_processors': [
+				'django.template.context_processors.debug',
+				'django.template.context_processors.request',
+				'django.contrib.auth.context_processors.auth',
+				'django.contrib.messages.context_processors.messages',
+				'django.core.context_processors.static',
+				'django.core.context_processors.tz',
+			],
+			'loaders': [
+				('django.template.loaders.cached.Loader', (
+					'django.template.loaders.filesystem.Loader',
+					'django.template.loaders.app_directories.Loader',
+				))] if not DEBUG else None,
+		},
+	},
+]
+
 
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
 
@@ -101,10 +114,10 @@ else:
 	DATABASES['default'].update(environment['db'])
 
 CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': '127.0.0.1:11211',
-    }
+	'default': {
+		'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+		'LOCATION': '127.0.0.1:11211',
+	}
 }
 if environment.get('memcached'):
 	CACHES['default']['BACKEND'] = 'django.core.cache.backends.memcached.MemcachedCache'
@@ -139,14 +152,6 @@ if environment["https"]:
 	SESSION_COOKIE_SECURE = True
 	CSRF_COOKIE_HTTPONLY = True
 	CSRF_COOKIE_SECURE = True
-
-if not DEBUG:
-	TEMPLATE_LOADERS = (
-	    ('django.template.loaders.cached.Loader', (
-	        'django.template.loaders.filesystem.Loader',
-	        'django.template.loaders.app_directories.Loader',
-	    )),
-	)
 
 # Paths
 
