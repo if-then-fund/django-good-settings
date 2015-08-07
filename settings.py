@@ -44,7 +44,8 @@ SECRET_KEY = environment["secret-key"]
 DEBUG = environment["debug"]
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = [environment["host"]]
+# Set ALLOWED_HOSTS from the host environment. If it has a port, strip it.
+ALLOWED_HOSTS = [environment["host"].split(':')[0]]
 
 # Applications & middleware
 
