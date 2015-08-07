@@ -162,5 +162,9 @@ if environment.get("static"):
 LOGIN_URL = '/accounts/login'
 LOGIN_REDIRECT_URL = '/home'
 
+# Convenience.
+
+SITE_ROOT_URL = "%s://%s" % (("http" if not environment["https"] else "https"), environment["host"])
+
 # Load all additional settings from settings_application.py.
 from .settings_application import *
