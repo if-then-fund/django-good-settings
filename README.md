@@ -15,6 +15,7 @@ You get:
 * A default console EMAIL_BACKEND so you can debug emails quickly.
 * When `DEBUG` is `True`, stack traces of exceptions in views are written to the runserver console so you can see them more easily.
 * When `DEBUG` is `False`, the cached template loader is used.
+* When `test_without_migrations` is installed, it is added to `INSTALLED_APPS`.
 
 Then you configure this:
 

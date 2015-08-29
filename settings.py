@@ -59,6 +59,14 @@ INSTALLED_APPS = [
 	'django.contrib.humanize',
 ]
 
+# Add test_without_migrations if it is installed. This provides --nomigrations
+# to the test management command.
+try:
+	import test_without_migrations
+	INSTALLED_APPS.append('test_without_migrations')
+except ImportError:
+	pass
+
 MIDDLEWARE_CLASSES = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
