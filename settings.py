@@ -42,7 +42,6 @@ else:
 
 SECRET_KEY = environment["secret-key"]
 DEBUG = environment["debug"]
-TEMPLATE_DEBUG = True
 
 # Set ALLOWED_HOSTS from the host environment. If it has a port, strip it.
 ALLOWED_HOSTS = [environment["host"].split(':')[0]]
@@ -86,6 +85,7 @@ TEMPLATES = [
 		'DIRS': [os.path.join(os.path.dirname(os.path.dirname(__file__)), 'templates')],
 		'APP_DIRS': True if DEBUG else None, # when not in debug, replaced by app_directories.Loader
 		'OPTIONS': {
+			'debug': DEBUG,
 			'context_processors': [
 				'django.template.context_processors.debug',
 				'django.template.context_processors.request',
