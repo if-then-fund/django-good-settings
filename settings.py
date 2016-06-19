@@ -83,7 +83,6 @@ TEMPLATES = [
 	{
 		'BACKEND': 'django.template.backends.django.DjangoTemplates',
 		'DIRS': [os.path.join(os.path.dirname(os.path.dirname(__file__)), 'templates')],
-		'APP_DIRS': True if DEBUG else None, # when not in debug, replaced by app_directories.Loader
 		'OPTIONS': {
 			'debug': DEBUG,
 			'context_processors': [
@@ -98,7 +97,7 @@ TEMPLATES = [
 				('django.template.loaders.cached.Loader', (
 					'django.template.loaders.filesystem.Loader',
 					'django.template.loaders.app_directories.Loader',
-				))] if not DEBUG else None,
+				))] if not DEBUG else ['django.template.loaders.filesystem.Loader', 'django.template.loaders.app_directories.Loader'],
 		},
 	},
 ]
