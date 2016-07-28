@@ -152,9 +152,14 @@ ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
 ACCOUNT_PASSWORD_MIN_LENGTH = (4 if DEBUG else 6) # in debugging, allow simple passwords
 
-# improve how the allauth forms are rendered using django-bootstrap forms
-from bootstrapform.templatetags.bootstrap import bootstrap#_horizontal
-ALLAUTH_FORM_RENDERER = bootstrap#_horizontal
+# improve how the allauth forms are rendered using django-bootstrap forms,
+# if installed.
+try:
+	from bootstrapform.templatetags.bootstrap import bootstrap#_horizontal
+	ALLAUTH_FORM_RENDERER = bootstrap#_horizontal
+except ImportError:
+	# bootstrapform may not be available
+	pass
 
 # Use an Sqlite database at local/db.sqlite, until other database
 # settings have been set in the environment.
